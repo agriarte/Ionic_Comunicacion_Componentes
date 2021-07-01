@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+  <div style="margin: auto; width: 80%; border: rgb(102, 101, 101) 2px solid;">
+    <p>Componente Home - padre de hijo1 y hijo2</p>
+
+
+    <div [style.background]="num1 > 10 ? 'red' : 'yellow' " style="height: 20px;">
+      <p>Introduce un número y un texto. Si el número es mayor de 10 habrá un cambio de background.color de este div</p>
+    </div>
+
+    <form style="margin-top: 10px;" [formGroup]="myForm" (ngSubmit)="doAlgo()">
+      <input type="number" formControlName="campoNumero" />
+      <input type="text" formControlName="campoTexto" />
+      <ion-button class="ion-no-margin" color="primary" size="small" type="submit"> Entrar </ion-button>
+    </form>
+
+    <p>botones modifican dinamicamente la propiedad num1</p>
+
+    <ion-button color="secondary" size="small" (click)="doIncrementa()">Suma 1</ion-button>
+    <ion-button color="secondary" size="small" (click)="doDecrementa()">Resta 1</ion-button>
+
+    <p>Aqui un atributo de la clase Home: {{texto}}</p>
+    <p>Aqui se replica el Form desde el mismo componente, binding por interpolacion: {{num1}} - {{texto1}}</p>
+    <p>A continuación una variable que cambiará de valor al pulsar el botón ENVIAR TEXTO AL PADRE. Se utiliza Output y
+      EvenEmitter: <span style="color: red;">{{variableViajera}}</span></p>
+    <p>El siguiente botón modifica una variable de otro componente por medio de services. Es una forma muy cómoda de
+      comunicarse entre componentes sin necesidad de input, output y evenEmitter</p>
+    <ion-button color="danger" size="small" (click)="doCambiaDatosServices()">Cambiar Variable y que se refresque entre
+      componentes</ion-button>
+    <p style="color: blue;">Variable común a toda la APP. Se muestra en todos los componentes. Al pulsar botón coge
+      valor entre 1 y 100. Valor inicial = {{numeroComun}}</p>
   </div>
-</ion-content>
+  <br>
+  <!-- comunicación padres a hijos
+      de padres a hijos el input [variabledelhijo] es un atributo del componente hijo y variableViajera está
+      definida en este componente (padre) -->
+  <!-- comunicacion de hijos a padres
+    (cambioVariableDelHijo) viene del hijo con un evento. Es decir, se emite el dato dentro del $event que se
+    interpola dentro de variableViajera que es un atributo local de este componente -->
+  <!-- en el module de Home en declarations añado la clase de los componentes -->
+  <app-hijo1 [variableDelHijo]="variableViajera" (cambioVariableDelHijo)="variableViajera= $event"></app-hijo1>
+  <br>
+  <app-hijo2></app-hijo2>
+
